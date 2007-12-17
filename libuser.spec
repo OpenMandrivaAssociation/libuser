@@ -11,7 +11,6 @@ URL:		http://qa.mandriva.com/
 Source0:	libuser-%{version}.tar.bz2
 BuildRequires:	gettext	glib2-devel openldap-devel linuxdoc-tools pam-devel popt-devel python-devel
 Conflicts:	libuser1 <= 0.51-6mdk
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The libuser library implements a standardized interface for manipulating
