@@ -4,7 +4,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.56.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPL
 Group:		System/Configuration/Other
 URL:		http://qa.mandriva.com/
