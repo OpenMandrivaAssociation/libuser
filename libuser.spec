@@ -1,14 +1,15 @@
 %define	major	1
 %define libname	%mklibname user %{major}
+%define develname %mklibname user -d
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.4
-Release:	%mkrel 2
-License:	LGPL
+Version:	0.56.9
+Release:	%mkrel 1
+License:	LGPLv2+
 Group:		System/Configuration/Other
-URL:		http://qa.mandriva.com/
-Source0:	libuser-%{version}.tar.bz2
+URL:		https://fedorahosted.org/libuser/
+Source0:	https://fedorahosted.org/libuser/attachment/wiki/LibuserDownloads/%name-%version.tar.bz2
 BuildRequires:	gettext	glib2-devel openldap-devel linuxdoc-tools pam-devel popt-devel python-devel
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -21,19 +22,19 @@ back-ends to interface to its data sources.
 Sample applications modeled after those included with the shadow password
 suite are included.
 
-%package -n	%{name}-python
+%package 	python
 Group:		Development/Python
 Summary:	Library bindings for python
 
-%description -n	%{name}-python
+%description 	python
 this package contains the python library for python applications that 
 use libuser
 
-%package -n	%{name}-ldap
+%package 	ldap
 Group:		System/Libraries
 Summary:	Libuser ldap library 
 
-%description -n	%{name}-ldap
+%description 	ldap
 this package contains the libuser ldap library
 
 %package -n	%{libname}
@@ -43,13 +44,14 @@ Summary:	The actual libraries for libuser
 %description -n	%{libname}
 This is the actual library for the libuser library.
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Group:		Development/C
 Summary:	Files needed for developing applications which use libuser
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%mklibname -d user 1
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 The libuser-devel package contains header files, static libraries, and other
 files useful for developing applications with libuser.
 
@@ -68,6 +70,14 @@ export CFLAGS="$RPM_OPT_FLAGS -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPR
 rm -fr $RPM_BUILD_ROOT
 %makeinstall_std
 
+%find_lang %{name}
+
+# Remove unpackaged files
+rm -rf  $RPM_BUILD_ROOT/usr/share/man/man3/userquota.3 \
+        %buildroot%{py_platsitedir}/*a \
+        %buildroot%_libdir/%name/*.la
+
+%check
 LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
@@ -75,27 +85,6 @@ export LD_LIBRARY_PATH
 pushd $RPM_BUILD_ROOT/%{_libdir}/python%{pyver}/site-packages/
 python -c "import libuser"
 popd
-
-# RH cruft.
-# too disgusting to watch.
-set -x
-pushd po
-rm -rf $RPM_BUILD_ROOT%_datadir/locale
-for i in *.po; do
-    msgfmt $i -o $(basename $i .po).mo
-    p=$RPM_BUILD_ROOT%_datadir/locale/$(basename $i .po)/LC_MESSAGES
-    mkdir -p $p
-    install -m644 $(basename $i .po).mo $p/libuser.mo
-done
-popd
-rm -rf $RPM_BUILD_ROOT%_datadir/locale/zh_TW.Big5
-set +x
-%find_lang %{name}
-
-# Remove unpackaged files
-rm -rf	$RPM_BUILD_ROOT/usr/share/man/man3/userquota.3 \
-	%buildroot%{py_platsitedir}/*a \
-	%buildroot%_libdir/%name/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,21 +108,17 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{libname}
 %attr(0755,root,root) %{_libdir}/libuser.so.%{major}*
 
-%files -n %{name}-python
+%files python
 %attr(0755,root,root) %{py_platsitedir}/*.so
 
-%files -n %{name}-ldap
+%files ldap
 %attr(0755,root,root) %{_libdir}/%{name}/libuser_ldap.so
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %attr(0755,root,root) %dir %{_includedir}/libuser
 %attr(0644,root,root) %{_includedir}/libuser/*
 %attr(0644,root,root) %{_libdir}/*.la
 %{_libdir}/*.so
-#%attr(0644,root,root) %{_mandir}/man3/*
 %attr(0644,root,root) %{_libdir}/pkgconfig/*
-
 %{_datadir}/gtk-doc/html/*
-
-
