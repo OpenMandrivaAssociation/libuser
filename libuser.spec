@@ -5,7 +5,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.56.9
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
@@ -25,6 +25,7 @@ suite are included.
 %package 	python
 Group:		Development/Python
 Summary:	Library bindings for python
+%py_requires -d
 
 %description 	python
 this package contains the python library for python applications that 
