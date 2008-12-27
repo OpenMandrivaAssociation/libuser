@@ -10,6 +10,7 @@ License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
 Source0:	https://fedorahosted.org/libuser/attachment/wiki/LibuserDownloads/%name-%version.tar.bz2
+Patch0:		libuser-0.56.9-fix-str-fmt.patch
 BuildRequires:	gettext	glib2-devel openldap-devel linuxdoc-tools pam-devel popt-devel python-devel
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -58,8 +59,10 @@ files useful for developing applications with libuser.
 
 %prep
 %setup -q
+%patch0 -p0
+
 %build
-export CFLAGS="$RPM_OPT_FLAGS -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
+export CFLAGS="%{optflags} -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
 %configure2_5x \
 	--with-ldap \
 	--with-python-version=%{pyver} \
