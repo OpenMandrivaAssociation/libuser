@@ -4,14 +4,22 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.9
-Release:	%mkrel 3
+Version:	0.56.10
+Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
-Source0:	https://fedorahosted.org/libuser/attachment/wiki/LibuserDownloads/%name-%version.tar.bz2
+Source0:	https://fedorahosted.org/libuser/attachment/wiki/LibuserDownloads/%{name}-%{version}.tar.bz2
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
-BuildRequires:	gettext	glib2-devel openldap-devel linuxdoc-tools pam-devel popt-devel python-devel
+BuildRequires:	gettext
+BuildRequires:	glib2-devel
+BuildRequires:	openldap-devel
+BuildRequires:	linuxdoc-tools
+BuildRequires:	pam-devel
+BuildRequires:	popt-devel
+BuildRequires:	python-devel
+BuildRequires:	sasl-devel
+BuildRequires:	bison
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -23,30 +31,41 @@ back-ends to interface to its data sources.
 Sample applications modeled after those included with the shadow password
 suite are included.
 
-%package 	python
+%package python
 Group:		Development/Python
 Summary:	Library bindings for python
 %py_requires -d
+Requires:	%{libname} = %{version}-%{release}
 
-%description 	python
-this package contains the python library for python applications that 
-use libuser
+%description python
+This package contains the python library for python applications that 
+use libuser.
 
-%package 	ldap
+%package ldap
 Group:		System/Libraries
-Summary:	Libuser ldap library 
+Summary:	Libuser ldap library
+Requires:	%{libname} = %{version}-%{release}
 
-%description 	ldap
-this package contains the libuser ldap library
+%description ldap
+This package contains the libuser ldap library.
 
-%package -n	%{libname}
+%package sasl
+Group:		System/Libraries
+Summary:	Libuser sasl library
+Requires:	%{libname} = %{version}-%{release}
+
+%description sasl
+This package contains the libuser sasl library.
+
+%package -n %{libname}
 Group:		System/Libraries
 Summary:	The actual libraries for libuser
+Requires:	%{name} = %{version}-%{release}
 
 %description -n	%{libname}
 This is the actual library for the libuser library.
 
-%package -n	%{develname}
+%package -n %{develname}
 Group:		Development/C
 Summary:	Files needed for developing applications which use libuser
 Requires:	%{libname} = %{version}-%{release}
@@ -65,33 +84,36 @@ files useful for developing applications with libuser.
 export CFLAGS="%{optflags} -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
 %configure2_5x \
 	--with-ldap \
-	--with-python-version=%{pyver} \
-	--with-python-path=%{_includedir}/python%{pyver} \
+	--with-python \
+	--with-popt \
+	--with-sasl \
+	--disable-rpath \
+	--without-selinux \
 	--enable-gtk-doc=no
-%make 
+%make
 
 %install
-rm -fr $RPM_BUILD_ROOT
+rm -fr %{buildroot}
 %makeinstall_std
 
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -rf  $RPM_BUILD_ROOT/usr/share/man/man3/userquota.3 \
+rm -rf  %{buildroot}/usr/share/man/man3/userquota.3 \
         %buildroot%{py_platsitedir}/*a \
         %buildroot%_libdir/%name/*.la
 
 %check
-LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
-pushd $RPM_BUILD_ROOT/%{_libdir}/python%{pyver}/site-packages/
+pushd %{buildroot}/%{_libdir}/python%{pyver}/site-packages/
 python -c "import libuser"
 popd
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -103,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS COPYING NEWS README TODO docs/*.txt python/modules.txt
+%doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
 %config(noreplace) %{_sysconfdir}/libuser.conf
 %attr(0755,root,root) %{_bindir}/*
 %attr(0755,root,root) %{_sbindir}/*
@@ -121,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files ldap
 %attr(0755,root,root) %{_libdir}/%{name}/libuser_ldap.so
+
+%files sasl
+%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
 
 %files -n %{develname}
 %defattr(-,root,root)
