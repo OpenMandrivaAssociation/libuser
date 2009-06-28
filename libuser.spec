@@ -18,7 +18,7 @@ BuildRequires:	linuxdoc-tools
 BuildRequires:	pam-devel
 BuildRequires:	popt-devel
 BuildRequires:	python-devel
-BuildRequires:	sasl-devel
+BuildRequires:	libgsasl-devel
 BuildRequires:	bison
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
