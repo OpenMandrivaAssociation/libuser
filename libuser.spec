@@ -18,7 +18,7 @@ BuildRequires:	linuxdoc-tools
 BuildRequires:	pam-devel
 BuildRequires:	popt-devel
 BuildRequires:	python-devel
-BuildRequires:	libgsasl-devel
+#BuildRequires:	libgsasl-devel
 BuildRequires:	bison
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -49,13 +49,13 @@ Requires:	%{libname} = %{version}-%{release}
 %description ldap
 This package contains the libuser ldap library.
 
-%package sasl
-Group:		System/Libraries
-Summary:	Libuser sasl library
-Requires:	%{libname} = %{version}-%{release}
+#%package sasl
+#Group:		System/Libraries
+#Summary:	Libuser sasl library
+#Requires:	%{libname} = %{version}-%{release}
 
-%description sasl
-This package contains the libuser sasl library.
+#%description sasl
+#This package contains the libuser sasl library.
 
 %package -n %{libname}
 Group:		System/Libraries
@@ -86,7 +86,7 @@ export CFLAGS="%{optflags} -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECA
 	--with-ldap \
 	--with-python \
 	--with-popt \
-	--with-sasl \
+	--without-sasl \
 	--disable-rpath \
 	--without-selinux \
 	--enable-gtk-doc=no
@@ -100,8 +100,8 @@ rm -fr %{buildroot}
 
 # Remove unpackaged files
 rm -rf  %{buildroot}/usr/share/man/man3/userquota.3 \
-        %buildroot%{py_platsitedir}/*a \
-        %buildroot%_libdir/%name/*.la
+        %{buildroot}%{py_platsitedir}/*a \
+        %{buildroot}%{_libdir}/%{name}/*.la
 
 %check
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
@@ -144,8 +144,8 @@ rm -rf %{buildroot}
 %files ldap
 %attr(0755,root,root) %{_libdir}/%{name}/libuser_ldap.so
 
-%files sasl
-%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
+#%files sasl
+#%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
 
 %files -n %{develname}
 %defattr(-,root,root)
