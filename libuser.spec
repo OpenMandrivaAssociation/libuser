@@ -4,12 +4,12 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.11
+Version:	0.56.12
 Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
-Source0:	https://fedorahosted.org/libuser/attachment/wiki/LibuserDownloads/%{name}-%{version}.tar.bz2
+Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.bz2
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
