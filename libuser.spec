@@ -10,6 +10,7 @@ License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
 Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.bz2
+# patches merged upstream (to be drop on next update):
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
 Patch1:		libuser-0.56.13-fix-i18n.diff
 Patch2:		fr-update.diff
