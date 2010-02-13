@@ -4,16 +4,14 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.13
-Release:	%mkrel 2
+Version:	0.56.14
+Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
 Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.bz2
 # patches merged upstream (to be drop on next update):
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
-Patch1:		libuser-0.56.13-fix-i18n.diff
-Patch2:		fr-update.diff
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
 BuildRequires:	openldap-devel
@@ -82,8 +80,6 @@ files useful for developing applications with libuser.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p0
-%patch2 -p0
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
