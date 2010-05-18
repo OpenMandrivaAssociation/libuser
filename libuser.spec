@@ -5,13 +5,15 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.56.15
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
 Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.xz
 # patches merged upstream (to be drop on next update):
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
+# default to blowfish for passwords instead of md5 (#59158)
+Patch1:		libuser-0.56.15-blowfish.patch
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
 BuildRequires:	openldap-devel
@@ -80,6 +82,7 @@ files useful for developing applications with libuser.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p1
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
