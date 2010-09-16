@@ -4,7 +4,7 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.17
+Version:	0.56.18
 Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Configuration/Other
