@@ -4,8 +4,8 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.56.18
-Release:	%mkrel 3
+Version:	0.57.1
+Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
@@ -16,6 +16,8 @@ Patch0:		libuser-0.56.9-fix-str-fmt.patch
 Patch1:		libuser-0.56.15-blowfish.patch
 # crypt returns *0 if key is small than 22 and rounds are not given
 Patch2:		libuser-0.56.15-fix_blowfish.patch
+# Upstream commit 44c92c5eef75eadb71f14f2c8834dfc7ca5b0adb
+Patch10:	libuser-0.57.1-commonName.patch
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
 BuildRequires:	openldap-devel
@@ -25,7 +27,10 @@ BuildRequires:	popt-devel
 BuildRequires:	python-devel
 #BuildRequires:	libgsasl-devel
 BuildRequires:	bison
+# For %%check
 BuildRequires:	openldap-servers openldap-clients
+# To make sure the configure script can find it
+BuildRequires:	nscd
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -85,8 +90,9 @@ files useful for developing applications with libuser.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1
+%patch1 -p0
 %patch2 -p0
+%patch10 -p1
 
 # fix tha tests
 perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
