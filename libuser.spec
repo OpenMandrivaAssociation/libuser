@@ -25,6 +25,7 @@ BuildRequires:	popt-devel
 BuildRequires:	python-devel
 #BuildRequires:	libgsasl-devel
 BuildRequires:	bison
+BuildRequires:	openldap-servers openldap-clients
 Conflicts:	libuser1 <= 0.51-6mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -87,6 +88,9 @@ files useful for developing applications with libuser.
 %patch1 -p1
 %patch2 -p0
 
+# fix tha tests
+perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
+
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
 %configure2_5x \
@@ -99,6 +103,12 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 	--enable-gtk-doc=no
 %make
 
+%check
+# note: the tests uses fixed ports 3890 and 6360
+LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+make check
+
 %install
 rm -fr %{buildroot}
 %makeinstall_std
@@ -110,13 +120,12 @@ rm -rf  %{buildroot}/usr/share/man/man3/userquota.3 \
         %{buildroot}%{py_platsitedir}/*a \
         %{buildroot}%{_libdir}/%{name}/*.la
 
-%check
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
 pushd %{buildroot}/%{_libdir}/python%{pyver}/site-packages/
-python -c "import libuser"
+    python -c "import libuser"
 popd
 
 %clean
