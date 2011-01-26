@@ -111,8 +111,8 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 
 %check
 # note: the tests uses fixed ports 3890 and 6360
-LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH
+#LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH
 make check
 
 %install
