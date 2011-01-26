@@ -16,6 +16,7 @@ Patch0:		libuser-0.56.9-fix-str-fmt.patch
 Patch1:		libuser-0.56.15-blowfish.patch
 # crypt returns *0 if key is small than 22 and rounds are not given
 Patch2:		libuser-0.56.15-fix_blowfish.patch
+Patch3:		libuser-0.57.1-borkfix.diff
 # Upstream commit 44c92c5eef75eadb71f14f2c8834dfc7ca5b0adb
 Patch10:	libuser-0.57.1-commonName.patch
 BuildRequires:	gettext
@@ -92,6 +93,8 @@ files useful for developing applications with libuser.
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
+
 %patch10 -p1
 
 # fix tha tests
