@@ -126,7 +126,7 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
-pushd %{buildroot}/%{_libdir}/python%{pyver}/site-packages/
+pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
     python -c "import libuser"
 popd
 
