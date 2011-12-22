@@ -4,8 +4,8 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.57.1
-Release:	%mkrel 2
+Version:	0.57.3
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 URL:		https://fedorahosted.org/libuser/
@@ -33,7 +33,6 @@ BuildRequires:	openldap-servers openldap-clients
 # To make sure the configure script can find it
 BuildRequires:	nscd
 Conflicts:	libuser1 <= 0.51-6mdk
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The libuser library implements a standardized interface for manipulating
@@ -47,7 +46,6 @@ suite are included.
 Group:		Development/Python
 Summary:	Library bindings for python
 %py_requires -d
-Requires:	%{libname} = %{version}-%{release}
 
 %description python
 This package contains the python library for python applications that 
@@ -56,7 +54,6 @@ use libuser.
 %package ldap
 Group:		System/Libraries
 Summary:	Libuser ldap library
-Requires:	%{libname} = %{version}-%{release}
 
 %description ldap
 This package contains the libuser ldap library.
@@ -72,7 +69,6 @@ This package contains the libuser ldap library.
 %package -n %{libname}
 Group:		System/Libraries
 Summary:	The actual libraries for libuser
-Requires:	%{name} = %{version}-%{release}
 
 %description -n	%{libname}
 This is the actual library for the libuser library.
@@ -127,7 +123,8 @@ rm -fr %{buildroot}
 # Remove unpackaged files
 rm -rf  %{buildroot}/usr/share/man/man3/userquota.3 \
         %{buildroot}%{py_platsitedir}/*a \
-        %{buildroot}%{_libdir}/%{name}/*.la
+        %{buildroot}%{_libdir}/%{name}/*.la \
+        %{buildroot}%{_libdir}/*.la
 
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
@@ -137,19 +134,7 @@ pushd %{buildroot}/%{_libdir}/python%{pyver}/site-packages/
     python -c "import libuser"
 popd
 
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
 %config(noreplace) %{_sysconfdir}/libuser.conf
 %attr(0755,root,root) %{_bindir}/*
@@ -157,7 +142,7 @@ rm -rf %{buildroot}
 %dir %{_libdir}/%{name}/
 %attr(0755,root,root) %{_libdir}/%{name}/libuser_files.so
 %attr(0755,root,root) %{_libdir}/%{name}/libuser_shadow.so
-%_mandir/man5/*
+%{_mandir}/man5/*
 %{_mandir}/man1/*
 
 %files -n %{libname}
@@ -173,10 +158,8 @@ rm -rf %{buildroot}
 #%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
 
 %files -n %{develname}
-%defattr(-,root,root)
 %attr(0755,root,root) %dir %{_includedir}/libuser
 %attr(0644,root,root) %{_includedir}/libuser/*
-%attr(0644,root,root) %{_libdir}/*.la
 %{_libdir}/*.so
 %attr(0644,root,root) %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/*
