@@ -2,6 +2,8 @@
 %define libname	%mklibname user %{major}
 %define develname %mklibname user -d
 
+%define enable_check 0
+
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.57.3
@@ -26,8 +28,10 @@ BuildRequires:	popt-devel
 BuildRequires:	python-devel
 #BuildRequires:	libgsasl-devel
 BuildRequires:	bison
+%if %{enable_check}
 # For %%check
 BuildRequires:	openldap-servers openldap-clients
+%endif
 # To make sure the configure script can find it
 BuildRequires:	nscd
 Conflicts:	libuser1 <= 0.51-6mdk
@@ -104,11 +108,13 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 	--enable-gtk-doc=no
 %make
 
+%if %{enable_check}
 %check
 # note: the tests uses fixed ports 3890 and 6360
 #LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 #export LD_LIBRARY_PATH
 make check
+%endif
 
 %install
 rm -fr %{buildroot}
