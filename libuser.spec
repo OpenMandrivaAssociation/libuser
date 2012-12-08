@@ -6,7 +6,7 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.57.3
+Version:	0.57.6
 Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
@@ -165,3 +165,167 @@ popd
 %{_libdir}/*.so
 %attr(0644,root,root) %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/*
+
+
+%changelog
+* Mon May 02 2011 Oden Eriksson <oeriksson@mandriva.com> 0.57.1-2mdv2011.0
++ Revision: 661536
+- mass rebuild
+
+* Wed Jan 26 2011 Oden Eriksson <oeriksson@mandriva.com> 0.57.1-1
++ Revision: 632934
+- fix the tests again...
+- attempt to fix the test suite some more
+- 0.57.1
+- added P10 from fedora
+- rediffed P2 (libuser-0.56.15-blowfish.patch)
+- make the test suite work
+
+* Thu Nov 04 2010 Götz Waschk <waschk@mandriva.org> 0.56.18-3mdv2011.0
++ Revision: 593320
+- rebuild for new python 2.7
+
+* Thu Sep 16 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.18-1mdv2011.0
++ Revision: 579049
+- update to new version 0.56.18
+
+* Sun Aug 29 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.17-1mdv2011.0
++ Revision: 574111
+- update to new version 0.56.17
+
+* Sat Aug 07 2010 Funda Wang <fwang@mandriva.org> 0.56.16-2mdv2011.0
++ Revision: 567458
+- rebuild
+
+  + Tomasz Pawel Gajc <tpg@mandriva.org>
+    - update to new version 0.56.16
+
+* Thu May 20 2010 Pascal Terjan <pterjan@mandriva.org> 0.56.15-3mdv2010.1
++ Revision: 545479
+- fix blowfish encoding
+
+* Tue May 18 2010 Pascal Terjan <pterjan@mandriva.org> 0.56.15-2mdv2010.1
++ Revision: 545158
+- default to blowfish for passwords instead of md5 (#59158)
+
+* Sat Mar 20 2010 Emmanuel Andry <eandry@mandriva.org> 0.56.15-1mdv2010.1
++ Revision: 525491
+- New version 0.56.15
+
+* Sat Feb 13 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.14-1mdv2010.1
++ Revision: 505549
+- update to new version 0.56.14
+- drop patches 1 and 2, fixed upstream
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - add patches status
+
+* Tue Feb 02 2010 Thierry Vignaud <tv@mandriva.org> 0.56.13-2mdv2010.1
++ Revision: 499466
+- fix build on x86_64
+- patch 1: fix translating in library callers (eg: userdrake)
+- patch 2: update french translation
+
+* Thu Dec 31 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.13-1mdv2010.1
++ Revision: 484480
+- update to new version 0.56.13
+
+* Sat Nov 07 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.12-1mdv2010.1
++ Revision: 462242
+- update to new version 0.56.12
+
+* Wed Sep 23 2009 Emmanuel Andry <eandry@mandriva.org> 0.56.11-1mdv2010.0
++ Revision: 447892
+- New version 0.56.11
+
+* Sun Jun 28 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 0.56.10-1mdv2010.0
++ Revision: 390224
+- disable sasl support
+- update to new version 0.56.10
+- enable sasl support
+- disable rpath
+- do not package COPYING file
+- spec file clean
+
+* Sat Dec 27 2008 Funda Wang <fwang@mandriva.org> 0.56.9-3mdv2009.1
++ Revision: 319796
+- fix str fmt
+- rebuild for new python
+
+* Wed Aug 06 2008 Thierry Vignaud <tv@mandriva.org> 0.56.9-2mdv2009.0
++ Revision: 264935
+- rebuild early 2009.0 package (before pixel changes)
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+* Sun Jun 01 2008 Funda Wang <fwang@mandriva.org> 0.56.9-1mdv2009.0
++ Revision: 213923
+- New version 0.56.9
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Wed Dec 26 2007 Oden Eriksson <oeriksson@mandriva.com> 0.56.4-2mdv2008.1
++ Revision: 137968
+- rebuilt against openldap-2.4.7 libs
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Fri Aug 17 2007 Thierry Vignaud <tv@mandriva.org> 0.56.4-1mdv2008.0
++ Revision: 64895
+- new release
+
+
+* Tue Jan 30 2007 Götz Waschk <waschk@mandriva.org> 0.54.5-2mdv2007.0
++ Revision: 115557
+- fix devel package conflicting with the main one
+
+* Tue Jan 30 2007 Götz Waschk <waschk@mandriva.org> 0.54.5-1mdv2007.1
++ Revision: 115454
+- Import libuser
+
+* Tue Jan 30 2007 Götz Waschk <waschk@mandriva.org> 0.54.5-1mdv2007.1
+- rebuild
+
+* Thu Apr 13 2006 Thierry Vignaud <tvignaud@mandriva.com> 0.54.5-1mdk
+- new release (fix #21962)
+- use %%mkrel
+
+* Wed Sep 07 2005 Oden Eriksson <oeriksson@mandriva.com> 0.53.2-6mdk
+- pass "-DLDAP_DEPRECATED" to the CFLAGS
+
+* Wed Aug 31 2005 Buchan Milne <bgmilne@linux-mandrake.com> 0.53.2-5mdk
+- Rebuild for new libldap-2.3
+- buildrequire openldap-devel, not libldap-devel
+
+* Thu Aug 25 2005 Daouda LO <daouda@mandrakesoft.com> 0.53.2-4mdk
+- split out libldap into a new package
+
+* Mon Feb 14 2005 Gwenole Beauchesne <gbeauchesne@mandrakesoft.com> 0.53.2-3mdk
+- mklibname
+
+* Fri Feb 04 2005 Buchan Milne <bgmilne@linux-mandrake.com> 0.53.2-2mdk
+- rebuild for ldap2.2_7
+
+* Thu Jan 20 2005 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.53.2-1mdk
+- 0.53.2
+
+* Mon Jan 03 2005 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.53.1-1mdk
+- 0.53.1
+- cosmetics
+
+* Tue Dec 07 2004 Gåtz Waschk <waschk@linux-mandrake.com> 0.53-1mdk
+- add new files
+- drop all patches
+- remove useless files from the devel package
+- use pyver macro
+- new version
+
+* Tue May 18 2004 Nicolas Planel <nplanel@mandrakesoft.com> 0.51.7-10mdk
+- security fix (MDKSA-2004:044).
+
+* Wed Mar 24 2004 Daouda LO <daouda@mandrakesoft.com> 0.51.7-9mdk
+- Obsoletes libuser < 0.51-6mdk (9.1 version)
+
