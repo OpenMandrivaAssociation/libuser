@@ -125,10 +125,8 @@ make check
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -r %{buildroot}/usr/share/man/man3/userquota.3 \
-        %{buildroot}%{py_platsitedir}/*a \
-        %{buildroot}%{_libdir}/%{name}/*.la \
-        %{buildroot}%{_libdir}/*.la
+rm -r \
+        %{buildroot}%{py_platsitedir}/*a
 
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
