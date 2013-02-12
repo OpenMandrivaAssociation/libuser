@@ -1,8 +1,8 @@
 %define	major	1
-%define libname	%mklibname user %{major}
-%define develname %mklibname user -d
+%define	libname	%mklibname user %{major}
+%define	devname	%mklibname user -d
 
-%define enable_check 0
+%define	enable_check 0
 
 Summary:	A user and group account administration library
 Name:		libuser
@@ -44,45 +44,44 @@ back-ends to interface to its data sources.
 Sample applications modeled after those included with the shadow password
 suite are included.
 
-%package python
+%package	python
 Group:		Development/Python
 Summary:	Library bindings for python
-%py_requires -d
 
-%description python
+%description	python
 This package contains the python library for python applications that 
 use libuser.
 
-%package ldap
+%package	ldap
 Group:		System/Libraries
 Summary:	Libuser ldap library
 
-%description ldap
+%description	ldap
 This package contains the libuser ldap library.
 
-#%package sasl
+#%package	sasl
 #Group:		System/Libraries
 #Summary:	Libuser sasl library
 #Requires:	%{libname} = %{version}-%{release}
 
-#%description sasl
+#%description	sasl
 #This package contains the libuser sasl library.
 
-%package -n %{libname}
+%package -n	%{libname}
 Group:		System/Libraries
 Summary:	The actual libraries for libuser
 
 %description -n	%{libname}
 This is the actual library for the libuser library.
 
-%package -n %{develname}
+%package -n	%{devname}
 Group:		Development/C
 Summary:	Files needed for developing applications which use libuser
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%mklibname -d user 1
 
-%description -n	%{develname}
+%description -n	%{devname}
 The libuser-devel package contains header files, static libraries, and other
 files useful for developing applications with libuser.
 
@@ -117,13 +116,12 @@ make check
 %endif
 
 %install
-rm -fr %{buildroot}
 %makeinstall_std
 
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -rf  %{buildroot}/usr/share/man/man3/userquota.3 \
+rm -r %{buildroot}/usr/share/man/man3/userquota.3 \
         %{buildroot}%{py_platsitedir}/*a \
         %{buildroot}%{_libdir}/%{name}/*.la \
         %{buildroot}%{_libdir}/*.la
@@ -159,13 +157,12 @@ popd
 #%files sasl
 #%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
 
-%files -n %{develname}
+%files -n %{devname}
 %attr(0755,root,root) %dir %{_includedir}/libuser
 %attr(0644,root,root) %{_includedir}/libuser/*
 %{_libdir}/*.so
 %attr(0644,root,root) %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/*
-
 
 %changelog
 * Mon May 02 2011 Oden Eriksson <oeriksson@mandriva.com> 0.57.1-2mdv2011.0
