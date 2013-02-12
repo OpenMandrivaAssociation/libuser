@@ -125,8 +125,7 @@ make check
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -r \
-        %{buildroot}%{py_platsitedir}/*a
+rm -r %{buildroot}%{py_platsitedir}/*a
 
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
