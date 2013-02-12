@@ -1,0 +1,19 @@
+--- libuser-0.57.7/Makefile.am~	2013-02-12 20:22:09.537012065 +0100
++++ libuser-0.57.7/Makefile.am	2013-02-12 20:22:12.555043545 +0100
+@@ -61,6 +61,7 @@ pkglib_LTLIBRARIES += modules/libuser_sa
+ endif
+ if WITH_PYTHON
+ pyexec_LTLIBRARIES = python/libusermodule.la
++pyexec_LDADD = -lpython$(PYTHON_VERSION)
+ endif
+ 
+ dist_man_MANS = apps/lgroupadd.1 apps/lgroupdel.1 apps/lgroupmod.1 \
+@@ -183,7 +184,7 @@ python_libusermodule_la_SOURCES = python
+ 	python/debug.h
+ python_libusermodule_la_CPPFLAGS = $(AM_CPPFLAGS) $(PYTHON_CPPFLAGS)
+ python_libusermodule_la_LDFLAGS = -module -avoid-version $(GOBJECT_LIBS)
+-python_libusermodule_la_LIBADD = apps/libapputil.la lib/libuser.la
++python_libusermodule_la_LIBADD = apps/libapputil.la lib/libuser.la -lpython$(PYTHON_VERSION)
+ 
+ samples_enum_CPPFLAGS = $(AM_CPPFLAGS) $(LOCALEDIR_CPPFLAGS)
+ samples_enum_LDADD = lib/libuser.la $(GMODULE_LIBS)

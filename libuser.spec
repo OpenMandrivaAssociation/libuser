@@ -19,6 +19,7 @@ Patch1:		libuser-0.56.15-blowfish.patch
 # crypt returns *0 if key is small than 22 and rounds are not given
 Patch2:		libuser-0.56.15-fix_blowfish.patch
 Patch3:		libuser-0.57.1-borkfix.diff
+Patch4:		libuser-0.57.7-link-python-module-against-python.patch
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
 BuildRequires:	openldap-devel
@@ -91,9 +92,12 @@ files useful for developing applications with libuser.
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
+%patch4 -p1 -b .python~
 
 # fix tha tests
 perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
+
+autoreconf -fi
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
@@ -165,6 +169,9 @@ popd
 %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Tue Feb 12 2013 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.57.7-1
+- add missing linkage against python for python module
+
 * Mon May 02 2011 Oden Eriksson <oeriksson@mandriva.com> 0.57.1-2mdv2011.0
 + Revision: 661536
 - mass rebuild
