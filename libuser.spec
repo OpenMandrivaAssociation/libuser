@@ -20,7 +20,7 @@ Patch1:		libuser-0.56.15-blowfish.patch
 Patch2:		libuser-0.56.15-fix_blowfish.patch
 Patch3:		libuser-0.57.1-borkfix.diff
 Patch4:		libuser-0.57.7-link-python-module-against-python.patch
-BuildRequires:	gettext
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	openldap-devel
 BuildRequires:	linuxdoc-tools
