@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   libuser-0.57.7.tar.xz: 6882d339ee9a667118c992ff0f93dcfb34dd6ef7
+sources:
+  libuser-0.59.tar.xz: db6c8bf6eacee5b0831e7aabfb62472e7959edb5

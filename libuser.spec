@@ -6,8 +6,8 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.57.7
-Release:	2
+Version:	0.59
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -161,4 +161,5 @@ popd
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/*
+
 
