@@ -2,12 +2,12 @@
 %define	libname	%mklibname user %{major}
 %define	devname	%mklibname user -d
 
-%define	enable_check 0
+%define	enable_check 1
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.57.7
-Release:	2
+Version:	0.59
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -111,8 +111,15 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 %if %{enable_check}
 %check
 # note: the tests uses fixed ports 3890 and 6360
-#LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
-#export LD_LIBRARY_PATH
+LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH
+
+# Verify that all python modules load, just in case.
+pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
+    python -c "import libuser"
+popd
+
+# check it
 make check
 %endif
 
@@ -122,15 +129,10 @@ make check
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -r %{buildroot}%{py_platsitedir}/*a
-
-LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH
-
-# Verify that all python modules load, just in case.
-pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
-    python -c "import libuser"
-popd
+rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
+	%{buildroot}%{py_platsitedir}/*a \
+	%{buildroot}%{_libdir}/%{name}/*.la \
+	%{buildroot}%{_libdir}/*.la
 
 %files -f %{name}.lang
 %doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
@@ -161,4 +163,3 @@ popd
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
 %{_datadir}/gtk-doc/html/*
-
