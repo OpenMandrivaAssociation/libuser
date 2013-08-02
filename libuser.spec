@@ -90,7 +90,7 @@ This package includes the development files for %{name}.
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
-%patch4 -p1 -b .python~
+#patch4 -p1 -b .python~
 
 # fix tha tests
 perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
