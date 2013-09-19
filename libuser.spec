@@ -35,6 +35,8 @@ BuildRequires:	pkgconfig(python)
 # For %%check
 BuildRequires:	openldap-clients
 BuildRequires:	openldap-servers
+BuildRequires:	openssl
+BuildRequires:	fakeroot
 %endif
 
 %description
