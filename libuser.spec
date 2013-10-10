@@ -21,7 +21,7 @@ Patch2:		libuser-0.56.15-fix_blowfish.patch
 Patch3:		libuser-0.57.1-borkfix.diff
 Patch4:		libuser-0.57.7-link-python-module-against-python.patch
 BuildRequires:	bison
-BuildRequires:	linuxdoc-tools
+#BuildRequires:	linuxdoc-tools
 # To make sure the configure script can find it
 BuildRequires:	nscd
 BuildRequires:	gettext-devel
@@ -122,7 +122,9 @@ pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
 popd
 
 # check it
+%ifnarch i586 x86_64
 make check
+%endif
 %endif
 
 %install
