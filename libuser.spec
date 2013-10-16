@@ -6,7 +6,7 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.59
+Version:	0.60
 Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
@@ -122,7 +122,9 @@ pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
 popd
 
 # check it
+%ifnarch i586 x86_64
 make check
+%endif
 %endif
 
 %install
