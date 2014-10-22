@@ -101,9 +101,9 @@ autoreconf -fi
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
-export PYTHON="%{_python2}"
+export PYTHON=%{python2}
 
-%configure2_5x \
+%configure \
 	--with-ldap \
 	--with-python \
 	--with-popt \
