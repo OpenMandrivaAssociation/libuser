@@ -29,7 +29,7 @@ BuildRequires:	openldap-devel
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python2)
 #BuildRequires:	pkgconfig(libgsasl)
 %if %{enable_check}
 # For %%check
@@ -101,6 +101,8 @@ autoreconf -fi
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
+export PYTHON="%{_python2}"
+
 %configure2_5x \
 	--with-ldap \
 	--with-python \
@@ -108,6 +110,7 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 	--without-sasl \
 	--without-selinux \
 	--enable-gtk-doc=no
+
 %make
 
 %if %{enable_check}
@@ -153,7 +156,7 @@ rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
 %{_libdir}/libuser.so.%{major}*
 
 %files python
-%{py_platsitedir}/*.so
+%{py2_platsitedir}/*.so
 
 %files ldap
 %{_libdir}/%{name}/libuser_ldap.so
