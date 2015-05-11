@@ -6,8 +6,8 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.60
-Release:	8
+Version:	0.61
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -29,7 +29,7 @@ BuildRequires:	openldap-devel
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
-BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python)
 #BuildRequires:	pkgconfig(libgsasl)
 %if %{enable_check}
 # For %%check
@@ -101,7 +101,6 @@ autoreconf -fi
 
 %build
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
-export PYTHON=%{__python2}
 
 %configure \
 	--with-ldap \
@@ -120,8 +119,8 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
-pushd %{buildroot}/%{_libdir}/python%{py2_ver}/site-packages/
-    %{__python2} -c "import libuser"
+pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
+    %{__python} -c "import libuser"
 popd
 
 # check it
@@ -156,7 +155,7 @@ rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
 %{_libdir}/libuser.so.%{major}*
 
 %files python
-%{py2_platsitedir}/*.so
+%{py_platsitedir}/*.so
 
 %files ldap
 %{_libdir}/%{name}/libuser_ldap.so
