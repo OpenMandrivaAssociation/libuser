@@ -100,6 +100,7 @@ perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.co
 autoreconf -fi
 
 %build
+export PYTHON=%{__python}
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
 
 %configure \
