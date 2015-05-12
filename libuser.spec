@@ -121,12 +121,12 @@ export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
 pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
-    %{__python} -c "import libuser"
+LC_ALL=en_US.UTF-8 %{__python} -c "import libuser"
 popd
 
 # check it
 %ifnarch i586 x86_64
-make check
+LC_ALL=en_US.UTF-8 make check
 %endif
 %endif
 
