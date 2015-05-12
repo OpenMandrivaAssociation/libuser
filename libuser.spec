@@ -29,7 +29,7 @@ BuildRequires:	openldap-devel
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 #BuildRequires:	pkgconfig(libgsasl)
 %if %{enable_check}
 # For %%check
