@@ -7,17 +7,13 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
 Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.xz
 # patches merged upstream (to be drop on next update):
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
-# default to blowfish for passwords instead of md5 (#59158)
-Patch1:		libuser-0.56.15-blowfish.patch
-# crypt returns *0 if key is small than 22 and rounds are not given
-Patch2:		libuser-0.56.15-fix_blowfish.patch
 Patch3:		libuser-0.57.1-borkfix.diff
 Patch4:		libuser-0.57.7-link-python-module-against-python.patch
 BuildRequires:	bison
@@ -89,8 +85,6 @@ This package includes the development files for %{name}.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p0
-%patch2 -p0
 %patch3 -p0
 #patch4 -p1 -b .python~
 
