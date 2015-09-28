@@ -7,7 +7,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -34,6 +34,8 @@ BuildRequires:	openldap-servers
 BuildRequires:	openssl
 BuildRequires:	fakeroot
 %endif
+# (tpg) conflict with shadow with blowfish hasing algorithm
+Conflicts:	shadow < 4.2.1-16
 
 %description
 The libuser library implements a standardized interface for manipulating
@@ -136,7 +138,7 @@ rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
 	%{buildroot}%{_libdir}/*.la
 
 # kill /etc/shadow.lock due to algo change
-%triggerin -n %{libname} -- %{libname} <= 0.62-3
+%triggerin -n %{libname} -- %{libname} <= 0.62-4
 rm -f /etc/shadow.lock
 
 %files -f %{name}.lang
