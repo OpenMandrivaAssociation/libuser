@@ -7,7 +7,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	4
+Release:	5
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -138,8 +138,12 @@ rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
 	%{buildroot}%{_libdir}/*.la
 
 # kill /etc/shadow.lock due to algo change
-%triggerin -n %{libname} -- %{libname} <= 0.62-4
-rm -f /etc/shadow.lock
+%post
+if [ $1 -ge 2 -o $2 -ge 2 ]; then
+    for i in gshadow shadow passwd group; do
+	rm -f /etc/$i.lock ||: ;
+    done
+fi
 
 %files -f %{name}.lang
 %doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
