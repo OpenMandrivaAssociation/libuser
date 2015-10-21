@@ -7,7 +7,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	6
+Release:	7
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://fedorahosted.org/libuser/
@@ -35,7 +35,7 @@ BuildRequires:	openssl
 BuildRequires:	fakeroot
 %endif
 # (tpg) conflict with shadow with blowfish hasing algorithm
-Conflicts:	shadow < 4.2.1-16
+Conflicts:	shadow < 4.2.1-24
 
 %description
 The libuser library implements a standardized interface for manipulating
