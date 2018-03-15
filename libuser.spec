@@ -26,6 +26,7 @@ BuildRequires:	pam-devel
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
 BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(libsasl2)
 #BuildRequires:	pkgconfig(libgsasl)
 %if %{enable_check}
 # For %%check
@@ -50,7 +51,7 @@ Group:		Development/Python
 Summary:	Library bindings for python
 
 %description	python
-This package contains the python library for python applications that 
+This package contains the python library for python applications that
 use libuser.
 
 %package	ldap
