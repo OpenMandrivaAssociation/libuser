@@ -7,11 +7,11 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	7
+Release:	8
 License:	LGPLv2+
 Group:		System/Configuration/Other
-Url:		https://fedorahosted.org/libuser/
-Source0:	https://fedorahosted.org/releases/l/i/libuser/%{name}-%{version}.tar.xz
+Url:		https://pagure.io/libuser/
+Source0:	https://releases.pagure.org/libuser/libuser-%{version}.tar.xz
 # patches merged upstream (to be drop on next update):
 Patch0:		libuser-0.56.9-fix-str-fmt.patch
 Patch3:		libuser-0.57.1-borkfix.diff
