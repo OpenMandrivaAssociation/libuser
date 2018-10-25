@@ -1,13 +1,13 @@
 %define	major	1
 %define	libname	%mklibname user %{major}
 %define	devname	%mklibname user -d
-
+%global __provides_exclude_from ^(%{_libdir}/%{name}|%{python2_sitearch}|%{python_sitearch})/.*$
 %define	enable_check 1
 
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	8
+Release:	9
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
@@ -108,7 +108,7 @@ export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_D
 	--without-selinux \
 	--enable-gtk-doc=no
 
-%make
+%make_build
 
 %if %{enable_check}
 %check
@@ -117,18 +117,18 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 # Verify that all python modules load, just in case.
-pushd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
+cd %{buildroot}/%{_libdir}/python%{py_ver}/site-packages/
 LC_ALL=en_US.UTF-8 %{__python} -c "import libuser"
-popd
+cd -
 
 # check it
-%ifnarch i586 x86_64
-LC_ALL=en_US.UTF-8 make check
-%endif
+#ifnarch %{ix86} %{x86_64}
+LC_ALL=en_US.UTF-8 make check || { cat test-suite.log; false; }
+#endif
 %endif
 
 %install
-%makeinstall_std
+%make_install
 
 %find_lang %{name}
 
@@ -139,12 +139,10 @@ rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
 	%{buildroot}%{_libdir}/*.la
 
 # kill /etc/shadow.lock due to algo change
-%post
-if [ $1 -ge 2 ]; then
-    for i in gshadow shadow passwd group; do
+%triggerin -- %{name} < %{EVRD}
+for i in gshadow shadow passwd group; do
 	rm -f /etc/$i.lock ||: ;
-    done
-fi
+done
 
 %files -f %{name}.lang
 %doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
