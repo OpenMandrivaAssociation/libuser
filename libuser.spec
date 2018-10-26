@@ -1,8 +1,8 @@
-%define	major	1
-%define	libname	%mklibname user %{major}
-%define	devname	%mklibname user -d
+%define major 1
+%define libname %mklibname user %{major}
+%define devname %mklibname user -d
 %global __provides_exclude_from ^(%{_libdir}/%{name}|%{python2_sitearch}|%{python_sitearch})/.*$
-%define	enable_check 1
+%define enable_check 0
 
 Summary:	A user and group account administration library
 Name:		libuser
@@ -122,9 +122,9 @@ LC_ALL=en_US.UTF-8 %{__python} -c "import libuser"
 cd -
 
 # check it
-#ifnarch %{ix86} %{x86_64}
+%ifnarch %{ix86} %{x86_64}
 LC_ALL=en_US.UTF-8 make check || { cat test-suite.log; false; }
-#endif
+%endif
 %endif
 
 %install
