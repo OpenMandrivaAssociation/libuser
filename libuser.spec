@@ -7,7 +7,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.62
-Release:	9
+Release:	10
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
