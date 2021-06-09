@@ -1,21 +1,17 @@
 %define major 1
 %define libname %mklibname user %{major}
 %define devname %mklibname user -d
-%global __provides_exclude_from ^(%{_libdir}/%{name}|%{python2_sitearch}|%{python_sitearch})/.*$
+%global __provides_exclude_from ^(%{_libdir}/%{name}|%{python_sitearch})/.*$
 %define enable_check 0
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.62
-Release:	10
+Version:	0.63
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
 Source0:	https://releases.pagure.org/libuser/libuser-%{version}.tar.xz
-# patches merged upstream (to be drop on next update):
-Patch0:		libuser-0.56.9-fix-str-fmt.patch
-Patch3:		libuser-0.57.1-borkfix.diff
-Patch4:		libuser-0.57.7-link-python-module-against-python.patch
 BuildRequires:	bison
 BuildRequires:	linuxdoc-tools
 # To make sure the configure script can find it
@@ -23,6 +19,7 @@ BuildRequires:	nscd
 BuildRequires:	gettext-devel
 BuildRequires:	openldap-devel
 BuildRequires:	pam-devel
+BuildRequires:	gtk-doc
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
 BuildRequires:	pkgconfig(python3)
@@ -46,59 +43,55 @@ back-ends to interface to its data sources.
 Sample applications modeled after those included with the shadow password
 suite are included.
 
-%package	python
+%package python
 Group:		Development/Python
 Summary:	Library bindings for python
 
-%description	python
+%description python
 This package contains the python library for python applications that
 use libuser.
 
-%package	ldap
+%package ldap
 Group:		System/Libraries
 Summary:	Libuser ldap library
 
-%description	ldap
+%description ldap
 This package contains the libuser ldap library.
 
-#%package	sasl
+#%package sasl
 #Group:		System/Libraries
 #Summary:	Libuser sasl library
 #Requires:	%{libname} = %{version}-%{release}
 
-#%description	sasl
+#%description sasl
 #This package contains the libuser sasl library.
 
-%package -n	%{libname}
+%package -n %{libname}
 Group:		System/Libraries
 Summary:	The actual libraries for libuser
 
-%description -n	%{libname}
+%description -n %{libname}
 This is the actual library for the libuser library.
 
-%package -n	%{devname}
+%package -n %{devname}
 Group:		Development/C
 Summary:	Files needed for developing applications which use libuser
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package includes the development files for %{name}.
 
 %prep
-%setup -q
-%patch0 -p0
-%patch3 -p0
-#patch4 -p1 -b .python~
+%autosetup -p1
 
 # fix tha tests
 perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
 
-autoreconf -fi
-
 %build
 export PYTHON=%{__python}
 export CFLAGS="%{optflags} -fPIC -DG_DISABLE_ASSERT -I/usr/include/sasl -DLDAP_DEPRECATED"
+./autogen.sh
 
 %configure \
 	--with-ldap \
@@ -133,15 +126,14 @@ LC_ALL=en_US.UTF-8 make check || { cat test-suite.log; false; }
 %find_lang %{name}
 
 # Remove unpackaged files
-rm -rf %{buildroot}/usr/share/man/man3/userquota.3 \
-	%{buildroot}%{py_platsitedir}/*a \
+rm -rf %{buildroot}%{py_platsitedir}/*a \
 	%{buildroot}%{_libdir}/%{name}/*.la \
 	%{buildroot}%{_libdir}/*.la
 
 # kill /etc/shadow.lock due to algo change
 %triggerin -- %{name} < %{EVRD}
 for i in gshadow shadow passwd group; do
-	rm -f /etc/$i.lock ||: ;
+    rm -f /etc/$i.lock ||: ;
 done
 
 %files -f %{name}.lang
@@ -172,4 +164,3 @@ done
 %{_includedir}/libuser/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
-%{_datadir}/gtk-doc/html/*
