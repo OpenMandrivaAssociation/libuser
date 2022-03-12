@@ -7,7 +7,7 @@
 Summary:	A user and group account administration library
 Name:		libuser
 Version:	0.63
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
@@ -22,9 +22,8 @@ BuildRequires:	pam-devel
 BuildRequires:	gtk-doc
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	pkgconfig(libsasl2)
-#BuildRequires:	pkgconfig(libgsasl)
 %if %{enable_check}
 # For %%check
 BuildRequires:	openldap-clients
@@ -58,14 +57,6 @@ Summary:	Libuser ldap library
 %description ldap
 This package contains the libuser ldap library.
 
-#%package sasl
-#Group:		System/Libraries
-#Summary:	Libuser sasl library
-#Requires:	%{libname} = %{version}-%{release}
-
-#%description sasl
-#This package contains the libuser sasl library.
-
 %package -n %{libname}
 Group:		System/Libraries
 Summary:	The actual libraries for libuser
@@ -86,7 +77,7 @@ This package includes the development files for %{name}.
 %autosetup -p1
 
 # fix tha tests
-perl -pi -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
+sed -i -e "s|/etc/openldap/schema|/usr/share/openldap/schema|g" tests/slapd.conf.in
 
 %build
 export PYTHON=%{__python}
@@ -144,8 +135,8 @@ done
 %dir %{_libdir}/%{name}/
 %{_libdir}/%{name}/libuser_files.so
 %{_libdir}/%{name}/libuser_shadow.so
-%{_mandir}/man5/*
-%{_mandir}/man1/*
+%doc %{_mandir}/man5/*
+%doc %{_mandir}/man1/*
 
 %files -n %{libname}
 %{_libdir}/libuser.so.%{major}*
@@ -155,9 +146,6 @@ done
 
 %files ldap
 %{_libdir}/%{name}/libuser_ldap.so
-
-#%files sasl
-#%attr(0755,root,root) %{_libdir}/%{name}/libuser_sasldb.so
 
 %files -n %{devname}
 %dir %{_includedir}/libuser
