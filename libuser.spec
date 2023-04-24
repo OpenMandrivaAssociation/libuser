@@ -6,16 +6,14 @@
 
 Summary:	A user and group account administration library
 Name:		libuser
-Version:	0.63
-Release:	4
+Version:	0.64
+Release:	1
 License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
-Source0:	https://releases.pagure.org/libuser/libuser-%{version}.tar.xz
+Source0:	https://releases.pagure.org/libuser/libuser-%{version}.tar.gz
 BuildRequires:	bison
 BuildRequires:	linuxdoc-tools
-# To make sure the configure script can find it
-BuildRequires:	nscd
 BuildRequires:	gettext-devel
 BuildRequires:	openldap-devel
 BuildRequires:	pam-devel
@@ -24,6 +22,8 @@ BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(popt)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	pkgconfig(libsasl2)
+# https://bugzilla.redhat.com/show_bug.cgi?id=1489451
+BuildConflicts: docbook-dtd42-sgml docbook-dtd41-sgml docbook-dtd31-sgml
 %if %{enable_check}
 # For %%check
 BuildRequires:	openldap-clients
@@ -131,7 +131,6 @@ done
 %doc AUTHORS NEWS README TODO docs/*.txt python/modules.txt
 %config(noreplace) %{_sysconfdir}/libuser.conf
 %{_bindir}/*
-%{_sbindir}/*
 %dir %{_libdir}/%{name}/
 %{_libdir}/%{name}/libuser_files.so
 %{_libdir}/%{name}/libuser_shadow.so
