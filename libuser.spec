@@ -12,6 +12,11 @@ License:	LGPLv2+
 Group:		System/Configuration/Other
 Url:		https://pagure.io/libuser/
 Source0:	https://releases.pagure.org/libuser/libuser-%{version}.tar.gz
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bison
 BuildRequires:	linuxdoc-tools
 BuildRequires:	gettext-devel
